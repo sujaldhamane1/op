@@ -1,0 +1,3 @@
+Hi from file 6
+--end
+its done now

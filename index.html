@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/?size=256&id=6356&format=png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main" class="relative w-full h-screen bg-zinc-700">
+            
+        <div id="workingarea" class="flex h-full w-full items-center">
+            <div id="background" class="relative h-screen w-full">
+                <h1 class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14vw] font-semibold text-zinc-800">EXAM</h1>
+                <div id="text-content" class="absolute overflow-scroll h-[94%] w-[96%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-950/60 px-6 py-8 text-white text-2xl rounded">
+                  
+                </div>
+            </div>
+            <div id="nav" class="h-[94%] w-80 mr-2 flex flex-col px-3 overflow-scroll gap-3">
+            </div>
+        </div>
+    </div>
+    <div id="login" class="absolute h-screen w-full top-0 left-0 h-screen bg-opacity-10 backdrop-filter backdrop-blur-md flex justify-center items-center ">
+        <div class="bg-gradient-to-b from-gray-400 to-gray-600 p-10 rounded-lg shadow-md flex flex-col">
+          <input type="text" id="connectId" placeholder="Connect ID" class="block w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 font-semibold">
+          <button onclick="login()" class="bg-zinc-900 text-white px-4 py-2 rounded-md hover:bg-zinc-950">Login</button>
+        </div>
+    </div>
+    <div id="hide" class="absolute hidden top-0 left-0 h-screen w-full">
+        <img src="./assets/img.png" class="h-full w-full object-cover">
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

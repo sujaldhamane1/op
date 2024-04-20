@@ -1,0 +1,21 @@
+@font-face {
+    font-family: gilroy;
+    src: url(./assets/Gilroy-SemiBold.ttf);
+}
+
+*{
+    font-family: 'gilroy';
+}
+
+#nav::-webkit-scrollbar, #text-content::-webkit-scrollbar{
+    display: none;
+}
+
+::selection{
+    color: rgb(246, 129, 20);
+}
+
+p{
+    user-select: all;
+    font-weight: 400
+}
