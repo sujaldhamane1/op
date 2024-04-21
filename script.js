@@ -1,8 +1,8 @@
-const slip = 20;
+const slip = 25;
 const nav = document.querySelector("#nav");
 const text = document.querySelector("#text-content");
 const inp = document.querySelector("#connectId");
-const LoginId = "exam123";
+const LoginId = "123";
 
 let clutter = "";
 for (let i = 0; i < slip; i++) {
