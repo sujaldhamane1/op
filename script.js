@@ -2,7 +2,7 @@ const slip = 25;
 const nav = document.querySelector("#nav");
 const text = document.querySelector("#text-content");
 const inp = document.querySelector("#connectId");
-const LoginId = "123";
+const LoginId = "exam";
 
 let clutter = "";
 for (let i = 0; i < slip; i++) {
