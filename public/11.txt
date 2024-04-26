@@ -1,0 +1,133 @@
+Slip 11
+
+q11
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+x = 70
+y = -25
+z = 15
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.set_xlabel('X-axis')
+ax.set_ylabel('Y-axis')
+ax.set_zlabel('Z-axis')
+
+ax.scatter(x, y, z, color='black', marker='D')
+
+plt.show()
+
+Q12
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-5, 5, 100)
+y = np.exp(-x**2)
+
+plt.plot(x, y, 'r--', marker='^')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Graph of y = e^(-x^2)')
+plt.show()
+
+Q21
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define vertices of triangle ABC
+A = np.array([1, 0])
+B = np.array([2, -1])
+C = np.array([-1, 3])
+
+# Reflecting triangle vertices across y=3
+A_reflected = np.array([A[0], 6 - A[1]])
+B_reflected = np.array([B[0], 6 - B[1]])
+C_reflected = np.array([C[0], 6 - C[1]])
+
+# Plotting original and reflected triangles
+plt.plot([A[0], B[0], C[0], A[0]], [A[1], B[1], C[1], A[1]], 'b-', label='Original ∆ABC')
+plt.plot([A_reflected[0], B_reflected[0], C_reflected[0], A_reflected[0]], [A_reflected[1], B_reflected[1], C_reflected[1], A_reflected[1]], 'r--', label='Reflected ∆ABC')
+plt.axhline(y=3, color='k', linestyle='--')  # Plot y=3 line
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Reflection of ∆ABC through the line y = 3')
+plt.legend()
+plt.grid(True)
+plt.axis('equal')
+plt.show()
+
+Q22
+import math
+
+# Function to rotate point (x, y) around the origin by theta radians
+def rotate_point(x, y, theta):
+    new_x = x * math.cos(theta) - y * math.sin(theta)
+    new_y = x * math.sin(theta) + y * math.cos(theta)
+    return new_x, new_y
+
+# Triangle vertices
+A = (1, 2)
+B = (2, -2)
+C = (-1, 2)
+
+# Rotation angle in radians (90 degrees)
+theta = math.radians(90)
+
+# Rotate each point of the triangle
+A_rotated = rotate_point(A[0], A[1], theta)
+B_rotated = rotate_point(B[0], B[1], theta)
+C_rotated = rotate_point(C[0], C[1], theta)
+
+print("Triangle ABC after rotating by 90 degrees:")
+print("A'({}, {})".format(round(A_rotated[0], 2), round(A_rotated[1], 2)))
+print("B'({}, {})".format(round(B_rotated[0], 2), round(B_rotated[1], 2)))
+print("C'({}, {})".format(round(C_rotated[0], 2), round(C_rotated[1], 2)))
+
+Q31
+
+from pulp import *
+
+prob = LpProblem("LP_Problem", LpMinimize)
+
+x = LpVariable("x", lowBound=6, cat='Continuous')
+y = LpVariable("y", lowBound=6, cat='Continuous')
+
+prob += x + y
+
+prob += x + y >= 11
+
+prob.solve()
+
+print("Optimal Solution:")
+print("x =", value(x))
+print("y =", value(y))
+print("Optimal value of Z =", value(prob.objective))
+
+Q3b1
+
+import numpy as np
+
+point = np.array([-2, 4])
+
+shear_matrix_y = np.array([[1, 7],
+                           [0, 1]])
+sheared_point_y = np.dot(shear_matrix_y, point)
+print("After shearing in Y direction by 7 units:", sheared_point_y)
+
+scale_matrix = np.array([[3, 0],
+                         [0, 4]])
+scaled_point = np.dot(scale_matrix, point)
+print("After scaling in X and Y direction by 3 and 4 units respectively:", scaled_point)
+
+shear_matrix_xy = np.array([[1, 2],
+                            [4, 1]])
+sheared_point_xy = np.dot(shear_matrix_xy, point)
+print("After shearing in X and Y direction by 2 and 4 units respectively:", sheared_point_xy)
+
+theta = np.radians(45)
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                             [np.sin(theta), np.cos(theta)]])
+rotated_point = np.dot(rotation_matrix, point)
+print("After rotation about origin by an angle 45 degrees:", rotated_point)
