@@ -1,0 +1,159 @@
+slip 16
+q11
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the function
+def f(x, y):
+    return -x*2 - y*2
+
+# Generate x and y values
+x = np.linspace(-10, 10, 100)
+y = np.linspace(-10, 10, 100)
+
+# Create grid of x, y values
+X, Y = np.meshgrid(x, y)
+
+# Compute the function values
+Z = f(X, Y)
+
+# Plot the surface
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis')
+
+# Set labels and title
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('f(x, y)')
+ax.set_title('Graph of f(x, y) = -x^2 - y^2')
+
+# Show the plot
+plt.show()
+
+q12
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the function
+def f(x):
+    return np.log(3*x**2)
+
+# Generate x values
+x = np.linspace(1, 10, 100)
+y = f(x)
+
+# Plot the function with black dashed lines
+plt.plot(x, y, 'k--')
+
+# Set labels and title
+plt.xlabel('X')
+plt.ylabel('f(x)')
+plt.title('Graph of f(x) = log(3x^2)')
+
+# Show the plot
+plt.show()
+
+Q no 2 a)import math
+# Define the coordinates of points A and B
+xA, yA = 0, 7
+xB, yB = 5, 2
+# Calculate the length of the line segment using the distance formula
+length = math.sqrt((xB - xA)*2 + (yB - yA)*2)
+# Calculate the midpoint of the line segment
+midpoint_x = (xA + xB) / 2
+midpoint_y = (yA + yB) / 2
+# Print the equation of the line passing through A and B
+print("The equation of the line passing through A and B is: ")
+print(f"y - {yA} = {(yB - yA) / (xB - xA)}(x - {xA})")
+# Print the length and midpoint of the line segment
+print(f"Length of the line segment: {length}")
+print(f"Midpoint of the line segment: ({midpoint_x}, {midpoint_y})") 
+
+b)import matplotlib.pyplot as plt
+import numpy as np
+# Define the vertices of the polygon
+vertices = np.array([[0, 0], [2, 0], [2, 3], [1, 6], [0, 0]])
+# Plot the original polygon
+plt.plot(vertices[:, 0], vertices[:, 1], label='Original Polygon')
+# Define the rotation angle in degrees
+rotation_angle = 90
+# Convert the rotation angle to radians
+theta = np.radians(rotation_angle)
+# Create the rotation matrix
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],[np.sin(theta),
+np.cos(theta)]])
+# Apply the rotation matrix to the vertices of the polygon
+rotated_vertices = np.dot(vertices, rotation_matrix.T)
+# Plot the rotated polygon
+plt.plot(rotated_vertices[:, 0], rotated_vertices[:, 1], label='Rotated Polygon')
+# Set the aspect ratio to 'equal' for a square plot
+plt.axis('equal')
+# Add legend and title
+plt.legend()
+plt.title('Polygon Rotation')
+# Show the plot
+plt.show()
+
+Q3 a) 2)Min Z = 5x+3y
+subject to
+x+y >= 5
+x >= 4
+y <= 2
+x>= 0, y>= 0
+Syntax:
+from pulp import *
+# Create the LP problem
+problem = LpProblem("LPP", LpMinimize)
+# Define the variables
+x = LpVariable("x", lowBound=0)
+y = LpVariable("y", lowBound=0)
+# Define the objective function
+problem += 5*x + 3*y
+# Define the constraints
+problem += x + y >= 5
+problem += x >= 4
+problem += y <= 2
+# Solve the LP problem
+problem.solve()
+# Print the status of the solution
+print("Status:", LpStatus[problem.status])
+# If the solution is optimal, print the optimal values of x, y, and Z
+if problem.status == 1:
+ print("Optimal Solution:")
+ print("x =", value(x))
+ print("y =", value(y))
+ print("Z =", 5*value(x) + 3*value(y))
+else:
+ print("No Optimal Solution Found.")
+OUTPUT:
+Status: Optimal
+Optimal Solution:
+x = 4.0
+y = 1.0
+Z = 23.0           
+
+Q3 b)1)import matplotlib.pyplot as plt
+import numpy as np
+# Define the vertices of the original triangle
+triangle_vertices = np.array([[4, 3], [6, 3], [6, 5], [4, 3]])
+# Reflect the triangle through the x-axis
+x_reflected_vertices = np.array([triangle_vertices[:, 0], -triangle_vertices[:,
+1]]).T
+# Reflect the triangle through the y-axis
+y_reflected_vertices = np.array([-triangle_vertices[:, 0], triangle_vertices[:,
+1]]).T
+# Plot the original triangle in red color
+plt.plot(triangle_vertices[:, 0], triangle_vertices[:, 1], 'r', label='Original
+Triangle')
+# Plot the x-reflected triangle in blue color
+plt.plot(x_reflected_vertices[:, 0], x_reflected_vertices[:, 1], 'b', label='XReflected Triangle')
+# Plot the y-reflected triangle in green color
+plt.plot(y_reflected_vertices[:, 0], y_reflected_vertices[:, 1], 'g', label='YReflected Triangle')
+# Set the axis labels and title
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.title('Triangle and Its Reflections')
+plt.legend()
+# Show the plot
+plt.show()
