@@ -1,0 +1,142 @@
+Slip 12
+ 
+Q11
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the function
+def f(x):
+    return x**3 + 10*x - 5
+
+# Generate x values
+x = np.linspace(-10, 10, 400)
+
+# Generate y values
+y = f(x)
+
+# Plot the graph
+plt.plot(x, y, color='red')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Graph of y = x^3 + 10x - 5')
+plt.grid(True)
+plt.show()
+
+Q12
+
+import numpy as np
+
+# Define the point
+point = np.array([1, 0, 0])
+
+# Define the rotation matrix for rotating around the Y-axis by 90 degrees
+theta = np.radians(90)
+cos_theta = np.cos(theta)
+sin_theta = np.sin(theta)
+rotation_matrix = np.array([[cos_theta, 0, -sin_theta],
+                            [0, 1, 0],
+                            [sin_theta, 0, cos_theta]])
+
+# Perform the rotation
+rotated_point = np.dot(rotation_matrix, point)
+
+print("Rotated point:", rotated_point)
+
+Q21
+
+import math
+
+def rotate_point(x, y, angle):
+    angle = math.radians(angle)
+    x_rotated = x * math.cos(angle) - y * math.sin(angle)
+    y_rotated = x * math.sin(angle) + y * math.cos(angle)
+    return x_rotated, y_rotated
+
+# Define endpoints of the segment
+x1, y1 = 1, 0
+x2, y2 = 2, -1
+
+# Rotate the segment by 180 degrees
+x1_rotated, y1_rotated = rotate_point(x1, y1, 180)
+x2_rotated, y2_rotated = rotate_point(x2, y2, 180)
+
+print("Rotated segment endpoints:")
+print("({}, {}) and ({}, {})".format(x1_rotated, y1_rotated, x2_rotated, y2_rotated))
+
+Q22
+import math
+
+def polygon_area(n, radius):
+    return 0.5 * n * radius**2 * math.sin(2*math.pi/n)
+
+def polygon_perimeter(n, radius):
+    return n * radius * math.sin(math.pi / n)
+
+# Define parameters
+num_sides = 8
+radius = 5
+
+# Calculate area and perimeter
+area = polygon_area(num_sides, radius)
+perimeter = polygon_perimeter(num_sides, radius)
+
+print("Area of the polygon:", area)
+print("Perimeter of the polygon:", perimeter)
+
+Q31
+
+import numpy as np
+from scipy.optimize import linprog
+
+# Coefficients of the objective function
+c = [3.5, 2]
+
+# Coefficients of the inequality constraints
+A = [[-1, -1], [-1, 0], [0, -1]]
+
+# Right-hand side of the inequality constraints
+b = [-5, -4, -2]
+
+# Bounds for variables x and y
+x_bounds = (0, None)
+y_bounds = (0, None)
+
+# Solve the linear programming problem
+res = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
+
+# Print the optimal solution and value of Z
+print("Optimal solution:")
+print("x =", res.x[0])
+print("y =", res.x[1])
+print("Optimal value of Z:", res.fun)
+
+Q3 b1
+import numpy as np
+
+# Initial point
+point = np.array([-2, 4])
+
+# Transformation functions
+def reflection_through_y_axis(point):
+    return np.array([-point[0], point[1]])
+
+def scaling_x_coordinate(point, factor):
+    return np.array([point[0] * factor, point[1]])
+
+def scaling_y_coordinate(point, factor):
+    return np.array([point[0], point[1] * factor])
+
+def shearing_x_direction(point, units):
+    return np.array([point[0] + units * point[1], point[1]])
+
+# Apply transformations
+reflected_point = reflection_through_y_axis(point)
+scaled_x_point = scaling_x_coordinate(point, 6)
+scaled_y_point = scaling_y_coordinate(point, 4.1)
+sheared_point = shearing_x_direction(point, 7/2)
+
+# Print results
+print("(I) Reflection through Y-axis:", reflected_point)
+print("(II) Scaling in X-coordinate by factor 6:", scaled_x_point)
+print("(III) Scaling in Y-coordinate by factor 4.1:", scaled_y_point)
+print("(IV) Shearing in X direction by 7/2 units:", sheared_point)
