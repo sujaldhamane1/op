@@ -1,0 +1,124 @@
+SLIP 24
+
+*Q1 1*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    return np.exp(-x**2)
+
+x = np.linspace(-5, 5, 100)
+
+y = f(x)
+
+plt.plot(x, y, 'g--^', markersize=8, label='$f(x) = e^{-x^2}$')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.title('Graph of $f(x) = e^{-x^2}$')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+*Q1 2*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    if -10 <= x < 5:
+        return x**2 + 4
+    elif 5 <= x < 10:
+        return 3*x + 9
+
+x = np.linspace(-10, 10, 200)
+
+y = np.array([f(val) for val in x])
+
+plt.plot(x, y, color='blue', label='$f(x)$')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.title('Graph of $f(x)$')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+*Q2 1*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+vertices = np.array([[3, 3], [5, 6], [5, 2]])
+
+plt.plot(vertices[:, 0], vertices[:, 1], 'b-', label='Original Triangle')
+
+theta = -np.pi
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                             [np.sin(theta), np.cos(theta)]])
+
+rotated_vertices = np.dot(rotation_matrix, vertices.T).T
+
+plt.plot(rotated_vertices[:, 0], rotated_vertices[:, 1], 'r-', label='Rotated Triangle')
+
+plt.gca().set_aspect('equal', adjustable='box')
+
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Triangle and its Rotation by -π radians')
+plt.legend()
+
+plt.grid(True)
+plt.show()
+
+
+*Q2 2*
+
+
+import numpy as np
+
+x = np.linspace(-22, 22, 80)
+
+print("Vector x:", x)
+
+
+*Q3 1*
+
+
+from scipy.optimize import linprog
+
+c = [3.5, 2]
+
+A = [[-1, -1], 
+     [-1, 0],   
+     [0, 1]]   
+
+b = [-5, -4, 2]
+
+x_bounds = (0, None)
+y_bounds = (0, None)
+
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
+
+print("Optimal values of x, y:", result.x)
+print("Optimal value of the objective function (Z):", result.fun)
+
+
+*Q3 b 2*
+
+
+P = [3, -1]
+
+reflection_x = [P[0], -P[1]]
+
+scaling_x = [2 * P[0], P[1]]
+
+scaling_y = [P[0], 1.5 * P[1]]
+
+reflection_line = [P[1], P[0]]
+
+print("I. Reflection through X-axis:", reflection_x)
+print("II. Scaling in X-coordinate by factor 2:", scaling_x)
+print("III. Scaling in Y-coordinate by factor 1.5:", scaling_y)
+print("IV. Reflection through the line y = x:", reflection_line)
