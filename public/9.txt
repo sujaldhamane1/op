@@ -1,0 +1,96 @@
+#s9q1a
+import matplotlib.pyplot as plt
+plt.axhline(0, color='black')
+plt.axvline(0, color='black')
+triangle_vertices = [[5, 4], [7, 4], [6, 6]]
+triangle = plt.Polygon(triangle_vertices, closed=True, edgecolor='green', fill=None)
+plt.gca().add_patch(triangle)
+plt.xlim(4, 8)
+plt.ylim(3, 7)
+plt.gca().set_aspect('equal', adjustable='box')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Triangle with Axes')
+plt.grid(True)
+plt.show()
+
+#s9q1b
+import numpy as np
+point = np.array([0, 3, 4])
+angle_rad = np.radians(90)
+rotated_point = np.dot(np.array([[np.cos(angle_rad), 0, np.sin(angle_rad)],
+                                  [0, 1, 0],
+                                  [-np.sin(angle_rad), 0, np.cos(angle_rad)]]), point)
+print("Original point:", point)
+print("Rotated point through YZ-plane (anticlockwise):", rotated_point)
+
+#s9q2a
+import numpy as np
+start_point1 = np.array([1, 0])
+start_point2 = np.array([2, -1])
+angle_rad = np.radians(90)
+rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)],
+                             [np.sin(angle_rad), np.cos(angle_rad)]])
+rotated_point1 = np.dot(rotation_matrix, start_point1)
+rotated_point2 = np.dot(rotation_matrix, start_point2)
+print("Rotated point 1:", rotated_point1)
+print("Rotated point 2:", rotated_point2)
+
+#s9q2b
+from sympy import Point, Line
+A = Point(0, 7)
+B = Point(5, 2)
+line = Line(A, B)
+length = A.distance(B)
+midpoint = (A + B) / 2
+print("Length of the line segment AB:", length)
+print("Midpoint of the line segment AB:", midpoint)
+
+
+
+#s9q3ai
+import numpy as np
+from scipy.optimize import linprog
+c = [-150, -75]
+A = [[4, 6], [5, 3]]
+b = [24, 15]
+x_bounds = (0, None)
+y_bounds = (0, None)
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds])
+x_optimal = result.x[0]
+y_optimal = result.x[1]
+Z_optimal = -result.fun
+print("Optimal values:")
+print("x =", x_optimal)
+print("y =", y_optimal)
+print("Optimal value of Z (maximized) =", Z_optimal)
+
+
+
+#s9q3bi
+import numpy as np
+point = np.array([-2, 4])
+def shear_y(shear_value, point):
+    shear_matrix = np.array([[1, 0],
+                             [shear_value, 1]])
+    return np.dot(shear_matrix, point)
+sheared_point1 = shear_y(7, point)
+def scale_xy(scale_x, scale_y, point):
+    return np.array([scale_x * point[0], scale_y * point[1]])
+scaled_point = scale_xy(7, 2, point)
+def shear_xy(shear_x, shear_y, point):
+    shear_matrix = np.array([[1, shear_x],
+                             [shear_y, 1]])
+    return np.dot(shear_matrix, point)
+sheared_point2 = shear_xy(4, 7, point)
+def rotate(angle_deg, point):
+    angle_rad = np.radians(angle_deg)
+    rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)],
+                                 [np.sin(angle_rad), np.cos(angle_rad)]])
+    return np.dot(rotation_matrix, point)
+rotated_point = rotate(60, point)
+print("Original point:", point)
+print("(I) Sheared point in Y direction by 7 units:", sheared_point1)
+print("(II) Scaled point in X and Y direction by 7 and 2 units respectively:", scaled_point)
+print("(III) Sheared point in X and Y direction by 4 and 7 units respectively:", sheared_point2)
+print("(IV) Rotated point by 60 degrees:", rotated_point)
