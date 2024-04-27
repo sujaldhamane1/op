@@ -1,3 +1,100 @@
-Hi from file 5
---end
-its done now
+#s5q1a
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+def f(x, y):
+    return np.cos(x*2 + y*2 - 0.5)
+x = np.linspace(-1, 1, 100)
+y = np.linspace(-1, 1, 100)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('Surface Plot of z = cos(x^2 + y^2 - 0.5)')
+plt.show()
+
+#s5q1b
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+def f(x, y):
+    return np.sin(x*2 + y*2)
+x = np.linspace(0, 10, 100)
+y = np.linspace(0, 10, 100)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('f(x)')
+ax.set_title('Surface Plot of f(x) = sin(x^2 + y^2)')
+plt.show()
+
+#s5q2a
+import numpy as np
+A = np.array([0, 0])
+B = np.array([4, 0])
+C = np.array([4, 3])
+a = np.linalg.norm(C - B)
+b = np.linalg.norm(C - A)
+c = np.linalg.norm(B - A)
+is_right_angle = False
+if a*2 + b2 == c2 or b2 + c2 == a2 or c2 + a2 == b*2:
+    is_right_angle = True
+if is_right_angle:
+    print("The triangle is a right-angled triangle.")
+else:
+    print("The triangle is not a right-angled triangle.")
+
+#s5q2b
+import numpy as np
+x = np.linspace(-7, 7, 50)
+print(x)
+
+
+
+#s5q3ai
+from pulp import *
+prob = LpProblem("Maximize_Z", LpMaximize)
+x = LpVariable('x', lowBound=0, cat='Continuous')
+y = LpVariable('y', lowBound=0, cat='Continuous')
+prob += 5*x + 3*y, "Z"
+prob += x + y <= 7
+prob += 2*x + 5*y <= 1
+prob.solve()
+print("Status:", LpStatus[prob.status])
+print("Optimal Solution:")
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
+print("Optimal Value (Z) =", value(prob.objective))
+
+#s5q3bi
+import numpy as np
+P = np.array([3, 8])
+def reflection_x_axis(point):
+    return np.array([point[0], -point[1]])
+P_reflected_x_axis = reflection_x_axis(P)
+print("(I) Reflection through X-axis:", P_reflected_x_axis)
+def scaling_x(point, factor):
+    return np.array([point[0] * factor, point[1]])
+P_scaled_x = scaling_x(P, 6)
+print("(II) Scaling in X-coordinate by factor 6:", P_scaled_x)
+def rotation(point, angle):
+    theta = np.radians(angle)
+    rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                                [np.sin(theta), np.cos(theta)]])
+    return np.dot(rotation_matrix, point)
+P_rotated = rotation(P, 30)
+print("(III) Rotation about origin through an angle 30 degrees:", P_rotated)
+def reflection_line(point):
+    reflection_matrix = np.array([[0, 1],
+                                   [1, 0]])
+    return np.dot(reflection_matrix, point)
+P_reflected_line = reflection_line(P)
+print("(IV) Reflection through the line y = -x:", P_reflected_line)
