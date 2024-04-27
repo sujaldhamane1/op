@@ -1,0 +1,99 @@
+#s7q1a
+import numpy as np
+import matplotlib.pyplot as plt
+def f(x):
+    return x**4
+x_values = np.linspace(0, 5, 100)
+y_values = f(x_values)
+plt.plot(x_values, y_values, 'r--o', label='f(x) = x^4')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.title('Graph of f(x) = x^4')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+#s7q1b
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+def f(x, y):
+    return np.sin(x*2 + y*2)
+x = np.linspace(0, 10, 100)
+y = np.linspace(0, 10, 100)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+surf = ax.plot_surface(X, Y, Z, cmap='viridis')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('f(x, y) = sin(x^2 + y^2)')
+ax.set_title('3D Surface Plot of f(x, y)')
+fig.colorbar(surf)
+plt.show()
+
+
+#s7q2a
+def find_intersection_point(line_slope, line_intercept, perp_slope, perp_intercept):
+    x = (perp_intercept - line_intercept) / (line_slope - perp_slope)
+    y = line_slope * x + line_intercept
+    return x, y
+A = (5, 3)
+B = (1, 4)
+line_slope = (B[1] - A[1]) / (B[0] - A[0])
+line_intercept = A[1] - line_slope * A[0]
+mid_point = ((A[0] + B[0]) / 2, (A[1] + B[1]) / 2)
+perp_slope = -1 / line_slope
+perp_intercept = mid_point[1] - perp_slope * mid_point[0]
+intersection_point = find_intersection_point(line_slope, line_intercept, perp_slope, perp_intercept)
+A_reflected = (2 * intersection_point[0] - A[0], 2 * intersection_point[1] - A[1])
+B_reflected = (2 * intersection_point[0] - B[0], 2 * intersection_point[1] - B[1])
+print("Reflected point A:", A_reflected)
+print("Reflected point B:", B_reflected)
+
+#s7q2b
+from sympy import Point, Line
+P = Point(5, 2)
+Q = Point(5, -2)
+R = Point(5, 0)
+collinear = Line(P, Q).contains(R)
+print("Are the points collinear?", collinear)
+ray = Line(P, Q)
+length_PQ = P.distance(Q)
+print("Length of the ray between P and Q:", length_PQ)
+slope_PQ = ray.slope
+print("Slope of the ray:", slope_PQ)
+
+#s7q3ai
+!pip install pulp
+import pulp
+prob = pulp.LpProblem("LPP", pulp.LpMinimize)
+x = pulp.LpVariable('x', lowBound=0)
+y = pulp.LpVariable('y', lowBound=0)
+prob += 3.5*x + 2*y
+prob += x + y >= 5
+prob += x >= 4
+prob += y <= 2
+prob.solve()
+print("Status:", pulp.LpStatus[prob.status])
+if pulp.LpStatus[prob.status] == "Optimal":
+    print("Optimal Solution:")
+    print("x =", pulp.value(x))
+    print("y =", pulp.value(y))
+    print("Optimal value of Z (objective function) =", pulp.value(prob.objective))
+
+
+#s7q3bi
+import numpy as np
+P = np.array([4, -2])
+reflected_P = np.array([-P[0], P[1]])
+scaled_P = np.array([5 * P[0], P[1]])
+angle = np.pi / 2
+rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+rotated_P = np.dot(rotation_matrix, P)
+sheared_P = np.array([P[0] + 7 / 2, P[1]])
+print("(I) Reflection through Y-axis:", reflected_P)
+print("(II) Scaling in X-coordinate by factor 5:", scaled_P)
+print("(III) Rotation about origin through an angle π by 2:", rotated_P)
+print("(IV) Shearing in X direction by 7 by 2 units:", sheared_P)
