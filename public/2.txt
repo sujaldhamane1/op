@@ -1,3 +1,103 @@
-Hi from file 2
---end
-its done now
+#s2q1a
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0.01, 10, 400)  # Generating x values
+y = np.log10(x)  # Generating y values
+plt.plot(x, y)
+plt.xlabel('x')
+plt.ylabel('f(x) = log10(x)')
+plt.title('Graph of f(x) = log10(x)')
+plt.grid(True)
+plt.show()
+
+
+#s2q1b
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0, 10, 100)
+y = np.linspace(0, 10, 100)
+x, y = np.meshgrid(x, y)
+z = np.sin(x*2 + y*2)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(x, y, z, cmap='viridis')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('f(x) = sin(x^2 + y^2)')
+ax.set_title('3D Surface Plot of f(x) = sin(x^2 + y^2)')
+plt.show()
+
+
+#s2q2a
+from sympy import Point, Line
+A = Point(0, 2)
+B = Point(5, 2)
+C = Point(3, 0)
+collinear = Point.is_collinear(A, B, C)
+print("Points A, B, and C are collinear:", collinear)
+AB_line = Line(A, B)
+distance = AB_line.distance(C)
+print("Distance of line AB from point C:", distance)
+
+
+#s2q2b
+import matplotlib.pyplot as plt
+import numpy as np
+center = (1, 2)
+num_sides = 6
+radius = 1
+angles = np.linspace(0, 2*np.pi, num_sides + 1)[:-1]
+x_coords = center[0] + radius * np.cos(angles)
+y_coords = center[1] + radius * np.sin(angles)
+plt.figure(figsize=(6, 6))
+plt.plot(x_coords, y_coords, 'b-')
+plt.fill(x_coords, y_coords, 'b', alpha=0.3)
+plt.plot(center[0], center[1], 'ro')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Regular Polygon with 6 Sides and Radius 1')
+perimeter = 2 * np.pi * radius
+area = 0.5 * num_sides * radius**2 * np.sin(2*np.pi/num_sides)
+print("Perimeter of the polygon:", perimeter)
+print("Area of the polygon:", area)
+plt.grid(True)
+plt.axis('equal')
+plt.show()
+
+
+#s2q3ai
+from scipy.optimize import linprog
+c = [-5, -3]
+A = [[1, 1], [2, 5]]
+b = [7, 1]
+x_bounds = (0, None)
+y_bounds = (0, None)
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
+x_optimal = result.x[0]
+y_optimal = result.x[1]
+print("Optimal solution:")
+print("x =", x_optimal)
+print("y =", y_optimal)
+Z_optimal = -result.fun
+print("Optimal value of Z =", Z_optimal)
+
+
+
+#s2q3bi
+P = [4, -2]
+def reflect_y_axis(point):
+    return [-point[0], point[1]]
+def scale_x(point, factor):
+    return [point[0] * factor, point[1]]
+def scale_y(point, factor):
+    return [point[0], point[1] * factor]
+def reflect_line(point):
+    return [point[1], point[0]]
+reflected_y_axis = reflect_y_axis(P)
+scaled_x = scale_x(P, 3)
+scaled_y = scale_y(P, 2.5)
+reflected_line = reflect_line(P)
+print("(I) Reflection through Y-axis:", reflected_y_axis)
+print("(II) Scaling in X-coordinate by factor 3:", scaled_x)
+print("(III) Scaling in Y-coordinate by factor 2.5:", scaled_y)
+print("(IV) Reflection through the line y = -x:", reflected_line)
