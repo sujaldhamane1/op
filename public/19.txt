@@ -1,0 +1,159 @@
+slip no 19
+Q1 a)
+ import numpy as np
+import matplotlib.pyplot as plt
+# Generate x values
+x = np.linspace(0, 5, 500)
+# Compute y values for sin(x), cos(x), e*x, x*2
+y1 = np.sin(x)
+y2 = np.cos(x)
+y3 = np.exp(x)
+y4 = x**3
+# Create subplots
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+fig.suptitle('Graphs of sin(x), cos(x), e*x, and x*2')
+# Plot sin(x)
+axs[0, 0].plot(x, y1, label='sin(x)')
+axs[0, 0].legend()
+# Plot cos(x)
+axs[0, 1].plot(x, y2, label='cos(x)')
+axs[0, 1].legend()
+# Plot e**x
+axs[1, 0].plot(x, y3, label='e**x')
+axs[1, 0].legend()
+# Plot x**2
+axs[1, 1].plot(x, y4, label='x**2')
+axs[1, 1].legend()
+# Set x and y axis labels for all subplots
+for ax in axs.flat:
+ ax.set_xlabel('x')
+ ax.set_ylabel('y')
+# Adjust spacing between subplots
+fig.tight_layout()
+# Show the plot
+plt.show()
+
+Q1 b]
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# Define the function
+def f(x, y):
+    return np.cos(np.abs(x) + np.abs(y))
+
+# Generate x and y values
+x = np.linspace(-1, 1, 100)
+y = np.linspace(-1, 1, 100)
+
+# Create grid of x, y values
+X, Y = np.meshgrid(x, y)
+
+# Compute the function values
+Z = f(X, Y)
+
+# Plot the surface
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis')
+
+# Set labels and title
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('3D Surface Plot of z = cos(|x|+|y|)')
+
+# Show the plot
+plt.show()
+
+
+
+Q2 a) 
+import math
+# Define the endpoints of the line segment
+x1, y1 = 0, 0
+x2, y2 = 4, 4
+# Perform the rotation
+x1_rotated = -x1
+y1_rotated = -y1
+x2_rotated = -x2
+y2_rotated = -y2
+# Print the original and rotated endpoints
+print("Original Endpoint 1: ({}, {})".format(x1, y1))
+print("Original Endpoint 2: ({}, {})".format(x2, y2))
+print("Rotated Endpoint 1: ({}, {})".format(x1_rotated, y1_rotated))
+print("Rotated Endpoint 2: ({}, {})".format(x2_rotated, y2_rotated))
+
+Q2 b) 
+import numpy as np
+import matplotlib.pyplot as plt
+# Define the coordinates of the triangle ABC
+A = np.array([1, 0])
+B = np.array([2, -1])
+C = np.array([-1, 3])
+# Define the equation of the reflection line y = 3
+reflection_line = 3
+# Reflect the triangle ABC through the reflection line
+A_reflected = np.array([A[0], 2*reflection_line - A[1]])
+B_reflected = np.array([B[0], 2*reflection_line - B[1]])
+C_reflected = np.array([C[0], 2*reflection_line - C[1]])
+# Plot the original and reflected triangles
+plt.plot([A[0], B[0], C[0], A[0]], [A[1], B[1], C[1], A[1]], 'bo-', label='TriangleABC')
+plt.plot([A_reflected[0], B_reflected[0], C_reflected[0], A_reflected[0]],
+ [A_reflected[1], B_reflected[1], C_reflected[1], A_reflected[1]], 'ro-',
+label='Reflected Triangle ABC')
+plt.axhline(y=reflection_line, color='g', linestyle='--', label='Reflection Liney=3')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.title('Reflection of Triangle ABC through y=3')
+plt.grid(True)
+plt.show()
+Q3 a)1)  
+from scipy.optimize import linprog
+# Coefficients of the objective function
+c = [1, 2, 1]
+# Coefficients of the inequality constraints (LHS matrix)
+A = [[1, 0.5, 0.5],
+ [-1.5, -2, -1]]
+# RHS values of the inequality constraints
+b = [1, -8]
+# Bounds on the variables (x, y, z)
+bounds = [(0, None), (0, None), (0, None)]
+# Specify the inequality constraint directions (<=, >=)
+# and the corresponding bound values (1, -1)
+ineq_ops = ['<=', '>=']
+# Solve the linear programming problem
+res = linprog(c, A_ub=A, b_ub=b, bounds=bounds, method='simplex')
+# Print the results
+print("Optimization Result:")
+print("Objective Value (Z):", res.fun)
+print("Optimal Solution (x, y, z):", res.x)
+
+Q3 b)1) 
+import numpy as np
+# Define the initial point
+point = np.array([-2, 4])
+# Transformation 1: Rotation about origin through an angle of 48 degrees
+angle = np.deg2rad(48)
+rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)],
+ [np.sin(angle), np.cos(angle)]])
+rotated_point = np.dot(rotation_matrix, point)
+# Transformation 2: Scaling in X-coordinate by a factor of 2
+scaling_factor = np.array([[2, 0],
+ [0, 1]])
+scaled_point = np.dot(scaling_factor, rotated_point)
+# Transformation 3: Reflection through the line y = 2x - 3
+reflection_matrix = np.array([[1, -4],
+ [-4, 1]])
+reflected_point = np.dot(reflection_matrix, scaled_point)
+# Transformation 4: Shearing in X-direction by 7 units
+shearing_factor = np.array([[1, 7],
+ [0, 1]])
+sheared_point = np.dot(shearing_factor, reflected_point)
+# Print the results
+print("Initial Point:", point)
+print("Rotated Point:", rotated_point)
+print("Scaled Point:", scaled_point)
+print("Reflected Point:", reflected_point)
+print("Sheared Point:",sheared_point)
