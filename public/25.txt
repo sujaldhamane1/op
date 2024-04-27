@@ -1,0 +1,140 @@
+SLIP 25
+
+*Q1 1*
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+x = np.linspace(-10, 10, 100)
+y = np.linspace(-10, 10, 100)
+
+X, Y = np.meshgrid(x, y)
+
+Z = np.sin(X) + np.cos(Y)
+
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+ax.plot_surface(X, Y, Z, cmap='viridis')
+
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('3D Plot of z = sin(x) + cos(y)')
+
+plt.show()
+
+
+*Q1 2*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-1, 1, 100)
+
+y = np.arcsin(x)
+
+plt.plot(x, y, color='blue', label='$f(x) = \\sin^{-1}(x)$')
+plt.xlabel('x')
+plt.ylabel('$f(x)$')
+plt.title('Graph of $f(x) = \\sin^{-1}(x)$')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+*Q2 1*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+P1 = np.array([1, 0])
+P2 = np.array([2, -1])
+
+plt.plot([P1[0], P2[0]], [P1[1], P2[1]], 'b-', label='Original Line Segment')
+
+theta = np.pi
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                             [np.sin(theta), np.cos(theta)]])
+
+P1_rotated = np.dot(rotation_matrix, P1)
+P2_rotated = np.dot(rotation_matrix, P2)
+
+plt.plot([P1_rotated[0], P2_rotated[0]], [P1_rotated[1], P2_rotated[1]], 'r-', label='Rotated Line Segment')
+
+plt.gca().set_aspect('equal', adjustable='box')
+
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Line Segment and its Rotation by 180 degrees')
+plt.legend()
+
+plt.grid(True)
+plt.show()
+
+
+*Q2 2*
+
+
+from sympy import Point, Line
+
+# Declare the points P, Q, R
+P = Point(5, 2)
+Q = Point(5, -2)
+R = Point(5, 0)
+
+collinear = Point.is_collinear(P, Q, R)
+print("Are points P, Q, R collinear?", collinear)
+
+ray_PQ = Line(P, Q)
+
+length_PQ = ray_PQ.length
+print("Length of the ray between P and Q:", length_PQ)
+
+slope_PQ = ray_PQ.slope
+print("Slope of the ray between P and Q:", slope_PQ)
+
+
+*Q3 1*
+
+from scipy.optimize import linprog
+
+c = [-150, -75] 
+
+A = [[4, 6],   # 4x + 6y <= 24
+     [5, 3]]   # 5x + 3y <= 15
+
+b = [24, 15]
+
+x_bounds = (0, None)
+y_bounds = (0, None)
+
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds])
+
+print("Optimal values of x, y:", result.x)
+print("Optimal value of the objective function (Z):", -result.fun) 
+
+
+*Q3 b 1*
+
+
+import numpy as np
+
+point = np.array([-2, 4])
+
+reflection_x = np.array([point[0], -point[1]])
+
+scaling_x = np.array([6 * point[0], point[1]])
+
+shearing_x = np.array([point[0] + 4 * point[1], point[1]])
+
+angle_rad = np.radians(30)
+rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)],
+                            [np.sin(angle_rad), np.cos(angle_rad)]])
+rotation = np.dot(rotation_matrix, point)
+
+print("I. Reflection through X-axis:", reflection_x)
+print("II. Scaling in X-coordinate by factor 6:", scaling_x)
+print("III. Shearing in X direction by 4 units:", shearing_x)
+print("IV. Rotate about origin through an angle 30 degrees:", rotation)
