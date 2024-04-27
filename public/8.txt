@@ -1,0 +1,114 @@
+#s8q1a
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(0, 5, 100)
+sin_x = np.sin(x)
+cos_x = np.cos(x)
+exp_x = np.exp(x)
+x_squared = x**2
+plt.figure(figsize=(10, 8))
+plt.subplot(2, 2, 1)
+plt.plot(x, sin_x, color='blue')
+plt.title('sin(x)')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.subplot(2, 2, 2)
+plt.plot(x, cos_x, color='orange')
+plt.title('cos(x)')
+plt.xlabel('x')
+plt.ylabel('cos(x)')
+plt.subplot(2, 2, 3)
+plt.plot(x, exp_x, color='green')
+plt.title('e^x')
+plt.xlabel('x')
+plt.ylabel('e^x')
+plt.subplot(2, 2, 4)
+plt.plot(x, x_squared, color='red')
+plt.title('x^2')
+plt.xlabel('x')
+plt.ylabel('x^2')
+plt.tight_layout()
+plt.show()                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+#s8q1b
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.linspace(0, 2*np.pi, 100)
+y = np.cos(x)
+plt.plot(x, y, color='blue')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.title('Graph of f(x) = cos(x)')
+plt.grid(True)
+plt.show()
+
+#s8q2a
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+point = np.array([1, 0, 0])
+angle_rad = np.radians(90)
+rotation_matrix = np.array([[np.cos(angle_rad), 0, np.sin(angle_rad)],
+                             [0, 1, 0],
+                             [-np.sin(angle_rad), 0, np.cos(angle_rad)]])
+rotated_point = np.dot(rotation_matrix, point)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(point[0], point[1], point[2], color='r', label='Original Point')
+ax.scatter(rotated_point[0], rotated_point[1], rotated_point[2], color='b', label='Rotated Point')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_box_aspect([1,1,1])
+ax.set_xlim(-1, 1)
+ax.set_ylim(-1, 1)
+ax.set_zlim(-1, 1)
+ax.legend()
+plt.title('Rotation of Point (1, 0, 0) through XZ Plane (Y-axis rotation) by 90 Degrees')
+plt.show()
+
+
+#s8q2b
+import numpy as np
+A = np.array([0, 0])
+B = np.array([4, 0])
+C = np.array([1, 4])
+side_AB = np.linalg.norm(B - A)
+side_BC = np.linalg.norm(C - B)
+side_CA = np.linalg.norm(A - C)
+is_scalene = side_AB != side_BC != side_CA != side_AB
+if is_scalene:
+    print("The triangle with vertices (0, 0), (4, 0), and (1, 4) is a scalene triangle.")
+else:
+    print("The triangle with vertices (0, 0), (4, 0), and (1, 4) is not a scalene triangle.")
+
+
+#s8q3ai
+import numpy as np
+from scipy.optimize import linprog
+c = [-150, -75]
+A = [[4, 6], [5, 3]]
+b = [24, 15]
+x_bounds = (0, None)
+y_bounds = (0, None)
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
+x_optimal = result.x[0]
+y_optimal = result.x[1]
+Z_optimal = -result.fun
+print("Optimal values:")
+print("x =", x_optimal)
+print("y =", y_optimal)
+print("Optimal value of Z (maximized) =", Z_optimal)
+
+
+#s8q3bi
+import numpy as np
+P = np.array([4, -2])
+reflection_y = np.array([-P[0], P[1]])
+scaling_x = np.array([3*P[0], P[1]])
+rotation_pi = np.array([np.cos(np.pi) * P[0] - np.sin(np.pi) * P[1], np.sin(np.pi) * P[0] + np.cos(np.pi) * P[1]])
+shearing_xy = np.array([P[0] - 2 * P[1], 4 * P[0] + P[1]])
+print("(I) Reflection through Y-axis:", reflection_y)
+print("(II) Scaling in X-coordinate by factor 3:", scaling_x)
+print("(III) Rotation about origin through an angle π:", rotation_pi)
+print("(IV) Shearing in both X and Y direction by -2 and 4 units respectively:", shearing_xy)
