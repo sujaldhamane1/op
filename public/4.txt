@@ -1,3 +1,116 @@
-Hi from file 4
---end
-its done now
+#s4q1a
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate x values in the interval [0, 10]
+x_values = np.linspace(0.01, 10, 100)  # Start from 0.01 to avoid log(0)
+
+# Calculate corresponding y values using the function f(x) = log10(x)
+y_values = np.log10(x_values)
+
+# Plot the graph
+plt.figure(figsize=(8, 6))
+plt.plot(x_values, y_values, label='f(x) = log10(x)', color='blue')
+plt.title('2D Graph of f(x) = log10(x)')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+
+#s4q1b
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-1, 1, 1000)
+y = np.arcsin(x)
+
+plt.plot(x, y)
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.title('Graph of f(x) = arcsin(x)')
+plt.grid(True)
+plt.show()
+
+
+#s4q2a
+import numpy as np
+T = np.array([[3, -2],
+              [2, 1]])
+A = np.array([3, 1])
+B = np.array([5, -1])
+A_transformed = np.dot(T, A)
+B_transformed = np.dot(T, B)
+x_A_transformed, y_A_transformed = A_transformed
+x_B_transformed, y_B_transformed = B_transformed
+slope_transformed = (y_B_transformed - y_A_transformed) / (x_B_transformed - x_A_transformed)
+y_intercept_transformed = y_A_transformed - slope_transformed * x_A_transformed
+print(f"Equation of transformed line: y = {slope_transformed:.2f}x + {y_intercept_transformed:.2f}")
+
+
+#s4q2b
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+from matplotlib.transforms import Affine2D
+vertices = np.array([[0, 0], [2, 0], [2, 3], [1, 6]])
+polygon = Polygon(vertices, closed=True, edgecolor='r', linewidth=2, alpha=0.5)
+fig, ax = plt.subplots()
+ax.add_patch(polygon)
+ax.set_aspect('equal', 'box')
+ax.set_xlim(-2, 3)
+ax.set_ylim(-2, 7)
+rotation_matrix = Affine2D().rotate_deg(180)
+polygon.set_transform(rotation_matrix + ax.transData)
+plt.grid(True)
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Polygon Rotated by 180 Degrees')
+plt.show()
+
+
+#s4q3ai
+from pulp import *
+
+prob = LpProblem("Maximize_Z", LpMaximize)
+
+x = LpVariable('x', lowBound=0, cat='Continuous')
+y = LpVariable('y', lowBound=0, cat='Continuous')
+
+prob += 150*x + 75*y, "Z"
+
+prob += 4*x + 6*y <= 24
+prob += 5*x + 3*y <= 15
+
+prob.solve()
+
+print("Status:", LpStatus[prob.status])
+print("Optimal Solution:")
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
+print("Optimal Value (Z) =", value(prob.objective))
+
+
+#s4q3bi
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Plotting 3D axes with labels
+ax.set_xlabel('X-axis')
+ax.set_ylabel('Y-axis')
+ax.set_zlabel('Z-axis')
+
+# Plotting the points
+ax.scatter(70, -25, 15, marker='D', color='black', label='(70, -25, 15)')
+ax.scatter(50, 72, -45, marker='*', color='green', label='(50, 72, -45)')
+ax.scatter(58, -82, 65, color='green', label='(58, -82, 65)')
+ax.scatter(20, 72, -45, marker='*', color='red', label='(20, 72, -45)')
+
+# Adding legend
+ax.legend()
+
+plt.show()
