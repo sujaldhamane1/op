@@ -1,0 +1,140 @@
+SLIP 20
+
+*Q1 1*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-2*np.pi, 2*np.pi, 100)
+
+f_x = np.sin(x)
+g_x = np.cos(x)
+
+plt.plot(x, f_x, label='f(x) = sin(x)', color='blue')
+plt.plot(x, g_x, label='g(x) = cos(x)', color='red')
+
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Graph of f(x) = sin(x) and g(x) = cos(x)')
+plt.legend()
+
+plt.grid(True)
+plt.show()
+
+*Q1 2*
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-5*np.pi, 5*np.pi, 100)
+
+y = np.exp(x) * np.sin(x)
+
+plt.plot(x, y, 'b-^', markersize=8)
+
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.title('Graph of f(x) = $e^x \sin(x)$')
+plt.grid(True)
+
+plt.show()
+
+*Q2 1*
+
+
+import numpy as np
+
+A = np.array([-5, 2])
+B = np.array([3, -4])
+
+def given_line(x):
+    return 2 * x - 1
+
+m_given_line = 2
+
+m_perpendicular = -1 / m_given_line
+
+midpoint = (A + B) / 2
+
+x_intersection = (midpoint[1] - 1) / (2 - m_perpendicular)
+y_intersection = given_line(x_intersection)
+intersection_point = np.array([x_intersection, y_intersection])
+
+A_reflected = 2 * intersection_point - A
+B_reflected = 2 * intersection_point - B
+
+print("Reflected point A:", A_reflected)
+print("Reflected point B:", B_reflected)
+
+
+*Q2 2*
+
+
+import numpy as np
+
+
+vertices = np.array([[0, 0], [-2, 0], [5, 5], [1, -6]])
+
+
+def distance(p1, p2):
+    return np.sqrt((p2[0] - p1[0])*2 + (p2[1] - p1[1])*2)
+
+sides_lengths = [distance(vertices[i], vertices[(i + 1) % len(vertices)]) for i in range(len(vertices))]
+
+
+def polygon_area(vertices):
+    x = [vertex[0] for vertex in vertices]
+    y = [vertex[1] for vertex in vertices]
+    return 0.5 * np.abs(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1)))
+
+area = polygon_area(vertices)
+
+perimeter = sum(sides_lengths)
+
+print("Area of the polygon:", area)
+print("Perimeter of the polygon:", perimeter)
+
+
+*Q3 1*
+
+from scipy.optimize import linprog
+
+c = [-1, -1]  
+
+A = [[-1, 1],   # x - y >= 1
+     [1, 1]]    # x + y >= 2
+
+b = [1, 2]
+
+
+x_bounds = (0, None)
+y_bounds = (0, None)
+
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds])
+
+print("Optimal values of x, y:", result.x)
+print("Optimal value of the objective function (Z):", -result.fun)  
+
+
+
+*Q3 b 1*
+
+import numpy as np
+
+P = np.array([3, -2])
+
+scaling_y = np.array([P[0], 4 * P[1]])
+
+reflection_y = np.array([-P[0], P[1]])
+
+theta = np.radians(45)
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                            [np.sin(theta), np.cos(theta)]])
+rotation = np.dot(rotation_matrix, P)
+
+reflection_line = np.array([P[1], P[0]])
+
+print("I. Scaling in y direction by 4 units:", scaling_y)
+print("II. Reflection through y axis:", reflection_y)
+print("III. Rotation about origin by an angle 45 degrees:", rotation)
+print("IV. Reflection through the line y = x:", reflection_line)
