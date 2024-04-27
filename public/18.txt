@@ -1,0 +1,152 @@
+slip no 18
+Q1 a) import matplotlib.pyplot as plt
+import numpy as np
+# Given vertices of the polygon
+vertices = np.array([[3, 3], [4, 6], [4, 2], [2, 2]])
+# Plot the original polygon
+plt.plot(vertices[:, 0], vertices[:, 1], 'bo-', label='Original Polygon')
+# Translation factors
+tx = 3 # Translation in x-direction
+ty = 5 # Translation in y-direction
+# Translated vertices
+translated_vertices = vertices + np.array([tx, ty])
+# Plot the translated polygon
+plt.plot(translated_vertices[:, 0], translated_vertices[:, 1], 'ro-', label='TranslatedPolygon')
+# Set x and y axis limits
+plt.xlim(vertices[:, 0].min() - 1, vertices[:, 0].max() + 1)
+plt.ylim(vertices[:, 1].min() - 1, vertices[:, 1].max() + 1)
+# Add legend, title and axis labels
+plt.legend()
+plt.title('Polygon Translation')
+plt.xlabel('X')
+plt.ylabel('Y')
+# Show the plot
+plt.show()
+
+Q1b)
+import matplotlib.pyplot as plt
+import numpy as np
+# Define the function
+def func(x):
+ return 2 * x**2 - 4 * x + 5
+# Generate x values in the range [-10,10]
+x = np.linspace(-10, 10, 500)
+# Generate y values using the function
+y = func(x)
+# Plot the graph with magenta colored dashed pattern
+plt.plot(x, y, 'm--', label='2x^2 - 4x + 5')
+# Set x and y axis limits
+plt.xlim(-10, 10)
+plt.ylim(y.min(), y.max())
+# Add legend, title and axis labels
+plt.legend()
+plt.title('Graph of 2x^2 - 4x + 5')
+plt.xlabel('x')
+plt.ylabel('y')
+# Show the plot
+plt.show()
+
+Q2 a)  
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+# Generate x, y values in the range [-5, 5]
+x = np.linspace(-5, 5, 100)
+y = np.linspace(-5, 5, 100)
+# Create a grid of x, y values
+X, Y = np.meshgrid(x, y)
+# Compute the corresponding z values using the function z = x^2 + y^2
+Z = X*2 + Y*2
+# Create a 3D figure
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+# Plot the surface
+ax.plot_surface(X, Y, Z, cmap='viridis')
+# Set labels for x, y, and z axes
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
+# Set title
+ax.set_title('3D Plot of z = x^2 + y^2')
+# Show the plot
+plt.show()
+
+Q2b)  
+import numpy as np
+# Define the coordinates of the triangle ABC
+A = np.array([1, 2])
+B = np.array([2, -2])
+C = np.array([-1, 2])
+# Define the rotation matrix for 90 degrees counterclockwise
+theta = np.deg2rad(90)
+rotation_matrix=np.array([[np.cos(theta),-np.sin(theta)],[np.sin(theta),
+np.cos(theta)]])
+# Rotate the triangle ABC using the rotation matrix
+A_rotated = np.dot(rotation_matrix, A)
+B_rotated = np.dot(rotation_matrix, B)
+C_rotated = np.dot(rotation_matrix, C)
+# Print the coordinates of the rotated triangle
+print("Original Triangle ABC:")
+print("A:", A)
+print("B:", B)
+print("C:", C)
+print("\nRotated Triangle ABC (90 degrees counterclockwise):")
+print("A_rotated:", A_rotated)
+print("B_rotated:", B_rotated)
+print("C_rotated:", C_rotated)
+
+Q3 a) 
+1)  
+from pulp import LpMaximize, LpProblem, LpVariable, lpSum, value
+# Create a linear programming problem
+prob = LpProblem("Linear Programming Problem", LpMaximize)
+# Define decision variables
+x = LpVariable('x', lowBound=0, cat='Continuous')
+y = LpVariable('y', lowBound=0, cat='Continuous')
+# Define the objective function
+prob += 2*x + 3*y, "Z"
+# Add inequality constraints
+prob += 5*x - y >= 0, "Constraint1"
+prob += x + y >= 6, "Constraint2"
+# Solve the linear programming problem
+prob.solve()
+# Check if the opimization was successful
+if prob.status == 1:
+ # Extract the optimal values of x and y
+ x_opt = value(x)
+ y_opt = value(y)
+ # Extract the optimal value of Z (objective function)
+ z_opt = value(prob.objective)
+ # Print the results
+ print("Optimal value of x: {:.2f}".format(x_opt))
+ print("Optimal value of y: {:.2f}".format(y_opt))
+ print("Optimal value of Z: {:.2f}".format(z_opt))
+else:
+ print("Linear programming problem failed to converge.")
+
+Q3 b) 1) 
+import numpy as np
+# Define the line segment as a numpy array
+A = np.array([3, 2])
+B = np.array([2, -3])
+# Define the transformations as matrices
+# (I) Rotation about origin through an angle pi/2
+R = np.array([[0, -1], [1, 0]])
+# (II) Scaling in Y-coordinate by 5 units
+S = np.array([[1, 0], [0, 5]])
+# (III) Reflection through the origin
+F = np.array([[-1, 0], [0, -1]])
+# Compute the combined transformation
+T = F @ S @ R
+# Apply the combined transformation to the line segment
+A_new = T @ A
+B_new = T @ B
+# Print the results
+print("Line segment before transformation:")
+print("A:", A)
+print("B:", B)
+print("\nCombined transformation matrix:")
+print(T)
+print("\nLine segment after transformation:")
+print("A':", A_new)
+print("B':",B_new)
