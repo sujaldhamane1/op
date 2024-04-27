@@ -1,3 +1,135 @@
-Hi from file 3
---end
-its done now
+#s3q1a
+import numpy as np
+import matplotlib.pyplot as plt
+def f(x):
+    return np.cos(x)
+x_values = np.linspace(0, 2*np.pi, 1000)
+y_values = f(x_values)
+plt.figure(figsize=(8, 6))
+plt.plot(x_values, y_values, label='f(x) = cos(x)', color='blue')
+plt.title('Graph of f(x) = cos(x)')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+
+#s3q1b
+import matplotlib.pyplot as plt
+games = ['Cricket', 'Football', 'Hockey', 'Chess', 'Tennis']
+students = [65, 30, 54, 10, 20]
+bar_width = 0.7
+plt.figure(figsize=(8, 6))
+plt.bar(games, students, width=bar_width, color='skyblue')
+plt.xlabel('Games')
+plt.ylabel('Number of Students')
+plt.title('Number of Students Participating in Various Games')
+plt.xticks(rotation=45)
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
+
+
+#s3q2a
+A = [5, 3]
+B = [1, 4]
+
+def given_line(x):
+    return x + 1
+
+midpoint = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2]
+slope_AB = (B[1] - A[1]) / (B[0] - A[0])
+slope_perpendicular = -1 / slope_AB
+
+x_intersection = (1 - midpoint[1] + slope_perpendicular * midpoint[0]) / (slope_perpendicular - 1)
+y_intersection = given_line(x_intersection)
+
+reflected_A = [2 * x_intersection - A[0], 2 * y_intersection - A[1]]
+reflected_B = [2 * x_intersection - B[0], 2 * y_intersection - B[1]]
+
+print("Reflected point A:", reflected_A)
+print("Reflected point B:", reflected_B)
+
+
+
+#s3q2b
+import numpy as np
+
+# Define points A and B
+A = np.array([2, 1])
+B = np.array([4, -1])
+
+# Define the transformation matrix
+T = np.array([[1, 2],
+              [2, 1]])
+
+# Apply the transformation matrix to points A and B
+transformed_A = np.dot(T, A)
+transformed_B = np.dot(T, B)
+
+# Calculate the slope and intercept of the transformed line
+transformed_slope = (transformed_B[1] - transformed_A[1]) / (transformed_B[0] - transformed_A[0])
+transformed_intercept = transformed_A[1] - transformed_slope * transformed_A[0]
+
+# Print the equation of the transformed line
+print(f"Equation of transformed line: y = {transformed_slope} * x + {transformed_intercept}")
+
+
+
+
+#s3q3ai
+import pulp
+
+# Create a LP Minimization problem
+lp_problem = pulp.LpProblem("Minimize Z", pulp.LpMinimize)
+
+# Define decision variables
+x = pulp.LpVariable('x', lowBound=0)
+y = pulp.LpVariable('y', lowBound=0)
+
+# Objective function
+lp_problem += 3.5*x + 2*y, "Z"
+
+# Constraints
+lp_problem += x + y >= 5
+lp_problem += x >= 4
+lp_problem += y <= 2
+
+# Solve the problem
+lp_problem.solve()
+
+# Print the results
+print("Optimal Solution:")
+for variable in lp_problem.variables():
+    print(f"{variable.name}: {variable.varValue}")
+
+print("Optimal Objective Function Value:")
+print(pulp.value(lp_problem.objective))
+
+
+
+#s3q3bi
+P = [4, -2]
+
+def reflect_y_axis(point):
+    return [-point[0], point[1]]
+
+def scale_x(point, factor):
+    return [point[0] * factor, point[1]]
+
+def scale_y(point, factor):
+    return [point[0], point[1] * factor]
+
+def reflect_line(point):
+    return [point[1], point[0]]
+
+reflected_y_axis = reflect_y_axis(P)
+scaled_x = scale_x(P, 3)
+scaled_y = scale_y(P, 2.5)
+reflected_line = reflect_line(P)
+
+print("(I) Reflection through Y-axis:", reflected_y_axis)
+print("(II) Scaling in X-coordinate by factor 3:", scaled_x)
+print("(III) Scaling in Y-coordinate by factor 2.5:", scaled_y)
+print("(IV) Reflection through the line y = -x:", reflected_line)
