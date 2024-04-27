@@ -1,3 +1,125 @@
-Hi from file 6
---end
-its done now
+#s6q1a
+import matplotlib.pyplot as plt
+cities = ['Pune', 'Mumbai', 'Nasik', 'Nagpur', 'Thane']
+air_quality_index = [168, 190, 170, 178, 195]
+plt.barh(cities, air_quality_index, color='maroon')
+plt.xlabel('Air Quality Index')
+plt.ylabel('City')
+plt.title('Air Quality Index by City')
+plt.grid(True)
+plt.show()
+
+
+#s6q1b
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+def f(x, y):
+    return np.sin(x*2 + y*2)
+x = np.linspace(0, 10, 100)
+y = np.linspace(0, 10, 100)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+surf = ax.plot_surface(X, Y, Z, cmap='viridis')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('f(x, y) = sin(x^2 + y^2)')
+ax.set_title('3D Surface Plot of f(x, y)')
+fig.colorbar(surf)
+plt.show()
+
+
+#s6q2a
+import numpy as np
+import matplotlib.pyplot as plt
+x1, y1 = 1, 0
+x2, y2 = 2, -1
+tx, ty = -x1, -y1
+x1 += tx
+x2 += tx
+y1 += ty
+y2 += ty
+theta = np.pi
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                            [np.sin(theta), np.cos(theta)]])
+x1_new, y1_new = rotation_matrix.dot(np.array([x1, y1]))
+x2_new, y2_new = rotation_matrix.dot(np.array([x2, y2]))
+x1_new += -tx
+x2_new += -tx
+y1_new += -ty
+y2_new += -ty
+plt.plot([x1, x2], [y1, y2], label='Original Line Segment', color='blue')
+plt.plot([x1_new, x2_new], [y1_new, y2_new], label='Rotated Line Segment', color='red')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Rotation of Line Segment by 180 Degrees')
+plt.axis('equal')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+#s6q2b
+import numpy as np
+import matplotlib.pyplot as plt
+vertices = np.array([[0, 0], [2, 0], [2, 3], [1, 6]])
+plt.plot(vertices[:, 0], vertices[:, 1], label='Original Polygon', color='blue')
+theta = np.pi
+rotation_matrix = np.array([[np.cos(theta), -np.sin(theta)],
+                            [np.sin(theta), np.cos(theta)]])
+vertices_rotated = np.dot(rotation_matrix, vertices.T).T
+plt.plot(vertices_rotated[:, 0], vertices_rotated[:, 1], label='Rotated Polygon', color='red')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Rotation of Polygon by 180 Degrees')
+plt.axis('equal')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+#s6q3ai
+from scipy.optimize import linprog
+c = [1, 1]
+A = [[-2, 2], [-1, -1]]
+b = [-1, -2]
+x_bounds = (0, None)
+y_bounds = (0, None)
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
+if result.success:
+    print("Optimal solution found:")
+    print("x =", result.x[0])
+    print("y =", result.x[1])
+    print("Optimal value of Z (objective function) =", result.fun)
+else:
+    print("Optimization failed. Message:", result.message)
+
+
+
+#s6q3bi
+def reflect_y_axis(point):
+    x, y = point
+    return (-x, y)
+def scale_x_coordinate(point, factor):
+    x, y = point
+    return (x * factor, y)
+def shear_y_direction(point, units):
+    x, y = point
+    return (x, y + units * x)
+def reflect_line_y_equals_negative_x(point):
+    x, y = point
+    return (-y, -x)
+P = (4, -2)
+# Apply transformations
+reflected_P = reflect_y_axis(P)
+scaled_P = scale_x_coordinate(P, 7)
+sheared_P = shear_y_direction(P, 3)
+reflected_line_P = reflect_line_y_equals_negative_x(P)
+# Print results
+print("Reflection through Y-axis:", reflected_P)
+print("Scaling in X-coordinate by factor 7:", scaled_P)
+print("Shearing in Y direction by 3 units:", sheared_P)
+print("Reflection through the line y = -x:", reflected_line_P)
