@@ -1,171 +1,84 @@
-<h1 class="text-blue-400">q11</h1>
+#s1q1a
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define the functions
-def f(x):
-    return x**2
-
-def g(x):
-    return x**3
-
-# Generate x values
-x_values = np.linspace(-1, 1, 100)
-
-# Plot the functions
-plt.plot(x_values, f(x_values), label='f(x) = x^2')
-plt.plot(x_values, g(x_values), label='g(x) = x^3')
-
-# Add labels and legend
+x = np.linspace(-1, 1, 100)
+plt.plot(x, x**2, label='f(x) = x^2')
+plt.plot(x, x**3, label='g(x) = x^3')
 plt.xlabel('x')
 plt.ylabel('y')
-plt.title('2D Graph of f(x) and g(x)')
+plt.title('Graphs of f(x) = x^2 and g(x) = x^3')
 plt.legend()
-
-# Show plot
 plt.grid(True)
 plt.show()
 
-q12
+#s1q1b
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
-# Define the function
-def f(x):
-    return np.exp(-x**2)
-
-# Generate x values
-x_values = np.linspace(-5, 5, 100)
-
-# Generate y values
-y_values = f(x_values)
-
-# Plot the 3D graph
+x = np.linspace(-5, 5, 100)
+y = np.exp(-x**2)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-
-# Plot the line
-ax.plot(x_values, y_values, zs=0, zdir='z', linestyle='--', color='g', marker='^')
-
-# Set labels and title
+ax.plot(x, y, zs=0, zdir='z', linestyle='--', color='g', marker='^')
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
-ax.set_title('3D Graph of f(x) = e^(-x^2)')
-
-# Show plot
-plt.show()
---end
-q21
-import numpy as np
-import matplotlib.pyplot as plt
-
-A = np.array([5, 3])
-B = np.array([1, 4])
-
-def line_eq(x):
-    return x + 1
-
-midpoint = (A + B) / 2
-direction_vector = np.array([1, 1])
-perpendicular_vector = np.array([-1, 1])
-projection_AB = np.dot((B - A), direction_vector) / np.dot(direction_vector, direction_vector) * direction_vector
-
-reflected_A = 2 * projection_AB - A
-reflected_B = 2 * projection_AB - B
-
-plt.plot([A[0], B[0]], [A[1], B[1]], label='Original Line Segment')
-plt.plot([reflected_A[0], reflected_B[0]], [reflected_A[1], reflected_B[1]], label='Reflected Line Segment')
-
-x_values = np.linspace(0, 6, 100)
-plt.plot(x_values, line_eq(x_values), linestyle='--', label='y = x + 1')
-
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Reflecting Line Segment through y = x + 1')
-plt.legend()
-plt.grid(True)
-plt.axis('equal')
 plt.show()
 
 
-q22
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
-from matplotlib.transforms import Affine2D
+#s1q2a
+def reflect_point(point, line):
+    x, y = point
+    a, b, c = line
+    x_reflected = ((b*2 - a2) * x - 2 * a * b * y - 2 * a * c) / (a2 + b*2)
+    y_reflected = ((a*2 - b2) * y - 2 * a * b * x - 2 * b * c) / (a2 + b*2)
+    return [x_reflected, y_reflected]
+def reflect_segment(A, B, line):
+    reflected_A = reflect_point(A, line)
+    reflected_B = reflect_point(B, line)
+    return reflected_A, reflected_B
+A = [5, 3]
+B = [1, 4]
+line = [1, -1, -1]  # y = x + 1
+reflected_A, reflected_B = reflect_segment(A, B, line)
+print("Reflected point A:", reflected_A)
+print("Reflected point B:", reflected_B)
 
+#s1q2b
+import matplotlib.pyplot as plt
+import numpy as np
 vertices = np.array([[0, 0], [2, 0], [2, 3], [1, 6]])
-
-polygon = Polygon(vertices, closed=True, edgecolor='black', facecolor='none')
-
-fig, ax = plt.subplots()
-
-ax.add_patch(polygon)
-
-ax.set_xlim(-1, 3)
-ax.set_ylim(-1, 7)
-
-transform = Affine2D().rotate_deg(180)
-polygon.set_transform(transform + ax.transData)
-
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Polygon Rotated by 180 Degrees')
-plt.grid(True)
+plt.plot(vertices[:, 0], vertices[:, 1], 'b-', label='Original Polygon')
+rotated_vertices = np.dot(vertices, np.array([[-1, 0], [0, -1]]))
+plt.plot(rotated_vertices[:, 0], rotated_vertices[:, 1], 'r-', label='Rotated Polygon (180 degrees)')
+plt.legend()
 plt.axis('equal')
 plt.show()
---end
-q31
-import numpy as np
-from scipy.optimize import linprog
 
-# Objective function coefficients
-c = np.array([-150, -75])
 
-# Coefficients of inequality constraints (left-hand side)
-A = np.array([[4, 6],
-              [5, 3]])
+#s1q3ai
+!pip install pulp
+import pulp
+prob = pulp.LpProblem("Maximize_Z", pulp.LpMaximize)
+x = pulp.LpVariable('x', lowBound=0, cat='Continuous')
+y = pulp.LpVariable('y', lowBound=0, cat='Continuous')
+prob += 150*x + 75*y, "Objective"
+prob += 4*x + 6*y <= 24
+prob += 5*x + 3*y <= 15
+prob.solve()
+print("Status:", pulp.LpStatus[prob.status])
+print("Maximum Z:", pulp.value(prob.objective))
+print("Optimal values:")
+for v in prob.variables():
+    print(v.name, "=", v.varValue)
 
-# Constants of inequality constraints (right-hand side)
-b = np.array([24, 15])
-
-# Define the bounds for variables (x >= 0, y >= 0)
-x_bounds = (0, None)
-y_bounds = (0, None)
-
-# Solve the linear programming problem
-result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
-
-# Print the optimal solution
-if result.success:
-    print("Optimal Solution:")
-    print("x =", result.x[0])
-    print("y =", result.x[1])
-    print("Optimal Value of Z =", -result.fun)  # Multiplying by -1 to maximize
-else:
-    print("No optimal solution found.")
-
-q3b1
-# Original point
+#s1q3bi
 P = [3, -1]
-
-# Transformation (I): Reflection through X-axis
-P_reflected_x_axis = [P[0], -P[1]]
-
-# Transformation (II): Scaling in X-coordinate by factor of 2
-P_scaled_x = [2 * P[0], P[1]]
-
-# Transformation (III): Scaling in Y-coordinate by factor of 1.5
-P_scaled_y = [P[0], 1.5 * P[1]]
-
-# Transformation (IV): Reflection through the line y = x
-P_reflected_y_equals_x = [P[1], P[0]]
-
-# Print the results
-print("Original Point P:", P)
-print("Reflection through X-axis:", P_reflected_x_axis)
-print("Scaling in X-coordinate by factor of 2:", P_scaled_x)
-print("Scaling in Y-coordinate by factor of 1.5:", P_scaled_y)
-print("Reflection through the line y = x:", P_reflected_y_equals_x)
+reflection_X_axis = [P[0], -P[1]]
+scaling_X = [2 * P[0], P[1]]
+scaling_Y = [P[0], 1.5 * P[1]]
+reflection_line_y_equals_x = [P[1], P[0]]
+print("Reflection through X-axis:", reflection_X_axis)
+print("Scaling in X-coordinate by factor 2:", scaling_X)
+print("Scaling in Y-coordinate by factor 1.5:", scaling_Y)
+print("Reflection through the line y = x:", reflection_line_y_equals_x)
