@@ -1,0 +1,93 @@
+#s10q1a
+import numpy as np
+point = np.array([1, 0, 0])
+angle_rad = np.radians(-90)
+rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad), 0],
+                             [np.sin(angle_rad), np.cos(angle_rad), 0],
+                             [0, 0, 1]])
+rotated_point = np.dot(rotation_matrix, point)
+print("Original point:", point)
+print("Rotated point through XY plane (clockwise):", rotated_point)
+
+
+#s10q1b
+import matplotlib.pyplot as plt
+items = ['Clothing', 'Food', 'Rent', 'Petrol', 'Misc.']
+expenditure = [600, 4000, 2000, 500, 700]
+plt.bar(items, expenditure, color='green')
+plt.xlabel('Items')
+plt.ylabel('Expenditure in Rs')
+plt.title('Expenditure Distribution')
+plt.xticks(rotation=45)  
+plt.show()
+
+
+
+#s10q2a
+import numpy as np
+A = np.array([1, 1])
+B = np.array([2, -2])
+C = np.array([1, 2])
+angle_rad = np.radians(90)
+rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)],
+                             [np.sin(angle_rad), np.cos(angle_rad)]])
+A_rotated = np.dot(rotation_matrix, A)
+B_rotated = np.dot(rotation_matrix, B)
+C_rotated = np.dot(rotation_matrix, C)
+print("Rotated vertex A:", A_rotated)
+print("Rotated vertex B:", B_rotated)
+print("Rotated vertex C:", C_rotated)
+
+
+#s10q2b
+import numpy as np
+import matplotlib.pyplot as plt
+vertices = np.array([[0, 0], [2, 0], [2, 3], [1, 6]])
+plt.plot(vertices[:, 0], vertices[:, 1], label='Original Polygon')
+angle_rad = np.radians(180)
+rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)],
+                             [np.sin(angle_rad), np.cos(angle_rad)]])
+rotated_vertices = np.dot(rotation_matrix, vertices.T).T
+plt.plot(rotated_vertices[:, 0], rotated_vertices[:, 1], label='Rotated Polygon')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Rotation of Polygon by 180 Degrees')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+#s10q3ai
+import pulp
+prob = pulp.LpProblem("Maximize_Z", pulp.LpMaximize)
+x = pulp.LpVariable('x', lowBound=0, cat='Continuous')
+y = pulp.LpVariable('y', lowBound=0, cat='Continuous')
+prob += x + y, "Z"
+prob += x - y >= 1
+prob += x + y >= 2
+prob.solve()
+print("Status:", pulp.LpStatus[prob.status])
+if prob.status == pulp.LpStatusOptimal:
+    print("Optimal values:")
+    print("x =", pulp.value(x))
+    print("y =", pulp.value(y))
+    print("Optimal value of Z (maximized) =", pulp.value(prob.objective))
+
+
+#s10q3bi
+import numpy as np
+point = np.array([-2, 4])
+reflected_point_x = np.array([point[0], -point[1]])
+scaled_point_x = np.array([6 * point[0], point[1]])
+sheared_point_x = np.array([point[0] + 4 * point[1], point[1]])
+def rotate(angle_deg, point):
+    angle_rad = np.radians(angle_deg)
+    rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)],
+                                 [np.sin(angle_rad), np.cos(angle_rad)]])
+    return np.dot(rotation_matrix, point)
+rotated_point = rotate(30, point)
+print("(I) Reflected point through X-axis:", reflected_point_x)
+print("(II) Scaled point in X-coordinate by factor 6:", scaled_point_x)
+print("(III) Sheared point in X direction by 4 units:", sheared_point_x)
+print("(IV) Rotated point by 30 degrees:", rotated_point)
